@@ -38,6 +38,11 @@ function wait5Seconds() {
 
 router.post('/', async(req, res, next) => {
     try {
+        // Heroku router timeouttaa tän POST Image requestin
+        // Timeouttia ei voi säätää
+        // Pitää pilkkoa tää whisper request omaan endpointtiin eka
+        // sitten pitää pollata toista endpointtia joka tsekkaa whisperin tilanteen ja
+        // sitten kun status on succeeded se tekee loput toimenpiteet
         const whisperInitialRes = await fetch("https://api.replicate.com/v1/predictions", {
             headers: {
                 'Authorization': `Token ${process.env.WHISPER_TOKEN}`,
@@ -45,7 +50,7 @@ router.post('/', async(req, res, next) => {
             },
             method: 'POST',
             body: JSON.stringify({
-                input: { audio: req.body.blobAsB64, language: 'fi', model: 'medium' },
+                input: { audio: req.body.blobAsB64, language: 'fi', model: 'base' },
                 version: "23241e5731b44fcb5de68da8ebddae1ad97c5094d24f94ccb11f7c1d33d661e2",
             })
         });

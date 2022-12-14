@@ -45,8 +45,8 @@ router.post('/', async(req, res, next) => {
             },
             method: 'POST',
             body: JSON.stringify({
-                input: { audio: req.body.blobAsB64, language: 'fi', model: 'large' },
-                version: "30414ee7c4fffc37e260fcab7842b5be470b9b840f2b608f5baa9bbef9a259ed",
+                input: { audio: req.body.blobAsB64, language: 'fi', model: 'medium' },
+                version: "23241e5731b44fcb5de68da8ebddae1ad97c5094d24f94ccb11f7c1d33d661e2",
             })
         });
         const wJson = await whisperInitialRes.json();

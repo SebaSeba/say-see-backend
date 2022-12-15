@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router();
 require('dotenv').config();
 const morgan = require('morgan');
-const helmet = require('helmet')
 const cors = require('cors');
 const deepl = require('deepl-node');
 const bodyParser = require('body-parser');
@@ -15,7 +14,6 @@ const openai = new OpenAIApi(configuration);
 const authKey = process.env.DEEPL_KEY; // Replace with your key
 const translator = new deepl.Translator(authKey);
 
-app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan('combined'));
@@ -29,14 +27,6 @@ app.listen(port, () => {
 app.use(router);
 
 router.use(bodyParser.json());
-
-function wait5Seconds() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, 10000);
-    });
-}
 
 router.post('/transcribe', async(req, res, next) => {
     try {

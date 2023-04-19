@@ -42,7 +42,6 @@ router.post('/transcribe', async(req, res, next) => {
             })
         });
         const whisperRes = await whisperInitRawRes.json();
-        console.log(whisperRes);
 
         if (whisperRes.urls && whisperRes.urls.get) {
             res.send({ url: whisperRes.urls.get });
@@ -65,7 +64,6 @@ router.get('/image', async(req, res, next) => {
         });
 
         const whisperTranscribeRes = await whisperTranscribeRawRes.json();
-        console.log(whisperTranscribeRes);
 
         if (whisperTranscribeRes.status === 'succeeded') {
             const result = await translator.translateText(whisperTranscribeRes.output.transcription, 'fi', 'en-US');
@@ -75,7 +73,6 @@ router.get('/image', async(req, res, next) => {
                 n: 1,
                 size: "512x512",
             });
-            console.log(response);
             const image_url = response.data.data[0].url;
             res.send({ status: 'succeeded', url: image_url });
             return;

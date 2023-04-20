@@ -66,15 +66,16 @@ router.get('/image', async(req, res, next) => {
         const whisperTranscribeRes = await whisperTranscribeRawRes.json();
 
         if (whisperTranscribeRes.status === 'succeeded') {
-            const result = await translator.translateText(whisperTranscribeRes.output.transcription, 'fi', 'en-US');
+            const translatedRes = await translator.translateText(whisperTranscribeRes.output.transcription, 'fi', 'en-US');
 
-            const response = await openai.createImage({
-                prompt: result.text.charAt(0) === '' ? result.text.substring(1) : result.text,
+            const imageRes = await openai.createImage({
+                prompt: translatedRes.text.charAt(0) === '' ? translatedRes.text.substring(1) : translatedRes.text,
                 n: 1,
                 size: "512x512",
             });
-            const image_url = response.data.data[0].url;
-            res.send({ status: 'succeeded', url: image_url });
+            const imageUrl = imageRes.data.data[0].url;
+
+            res.send({ status: 'succeeded', url: imageUrl });
             return;
         };
 

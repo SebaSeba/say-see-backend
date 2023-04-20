@@ -44,7 +44,7 @@ router.post('/transcribe', async(req, res, next) => {
         const whisperRes = await whisperInitRawRes.json();
 
         if (whisperRes.urls && whisperRes.urls.get) {
-            res.send({ url: whisperRes.urls.get });
+            res.send({ checkIfTranscribingFinishedUrl: whisperRes.urls.get });
         } else throw Error("Initiating transcribing failed.");
 
     } catch (err) {
@@ -55,7 +55,7 @@ router.post('/transcribe', async(req, res, next) => {
 
 router.get('/image', async(req, res, next) => {
     try {
-        let whisperTranscribeRawRes = await fetch(req.query.url, {
+        let whisperTranscribeRawRes = await fetch(req.query.checkIfTranscribingFinishedUrl, {
             headers: {
                 'Authorization': `Token ${process.env.WHISPER_TOKEN}`,
                 'Content-Type': 'application/json'
@@ -65,11 +65,12 @@ router.get('/image', async(req, res, next) => {
 
         const whisperTranscribeRes = await whisperTranscribeRawRes.json();
 
+        // Replicate Whisper API gives us an response immediately but the transcribing might not be ready yet.
+        // We check if it is ready and return the response accordingly. Front end keeps polling until it gets succeeded status. 
         if (whisperTranscribeRes.status === 'succeeded') {
             const translatedRes = await translator.translateText(whisperTranscribeRes.output.transcription, 'fi', 'en-US');
-
             const imageRes = await openai.createImage({
-                prompt: translatedRes.text.charAt(0) === '' ? translatedRes.text.substring(1) : translatedRes.text,
+                prompt: translatedRes.text,
                 n: 1,
                 size: "512x512",
             });

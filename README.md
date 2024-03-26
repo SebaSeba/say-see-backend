@@ -1,4 +1,4 @@
-# Say-See backend
+# Say See backend
 
 Say See is a (outdated) mini app developed at the end of year 2022. It was made for my relatives' kids. It leverages multiple third-party AI services.
 

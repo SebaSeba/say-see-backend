@@ -12,3 +12,5 @@ The image is then shown in the UI.
 The app was deployed to Heroku.
 
 [Link to Say See frontend repository](https://github.com/SebaSeba/say-see)
+
+![Say See high level architecture](https://github.com/SebaSeba/say-see/blob/master/say-see.jpg)

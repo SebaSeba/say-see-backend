@@ -9,4 +9,6 @@ After transcribing makes a call to DeepL API for AI enhanced translation to Engl
 At the end it calls OpenAI's Dalle-2 API which generates an image based on the transcribed and translated text.
 The image is then shown in the UI.
 
+The app was deployed to Heroku.
+
 [Link to Say See frontend repository](https://github.com/SebaSeba/say-see)
